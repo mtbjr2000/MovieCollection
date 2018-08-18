@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MovieViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*@foreach (var movie in Model)
+    {
+        <div class="e-card-stacked">
+            <div class="e-card-image">
+                <img src="@movie.Poster" height="185">
+            </div>
+            <div class="e-card-header">
+                <div class="e-card-header-caption">
+                    <div class="e-card-header-title">@movie.Title</div>
+                </div>
+            </div>
+        </div>
+    }*@
+
+
+@if (Model.Count() > 0)
+{
+    int skip = 0;
+    int take = 7;
+    var items = Model.Skip(skip).Take(take);
+
+    @do
+    {
+        <div class="e-card e-card-horizontal">
+            @foreach (var item in items)
+            {
+                <div class="e-card-image">
+                    <img src="@item.Poster" height="185">
+                </div>
+            }
+
+            @if (items.Count() < take)
+            {
+                @for (int i = 0; i < take - items.Count(); i++)
+                {
+                    <div class="e-card-image">
+                        <img src="" height="185">
+                    </div>
+                }
+            }
+        </div>
+
+        skip += take;
+        items = Model.Skip(skip).Take(take);
+    } while (items.Count() > 0);
+}

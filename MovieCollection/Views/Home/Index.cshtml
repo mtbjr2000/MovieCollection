@@ -4,49 +4,45 @@
     ViewData["Title"] = "Home Page";
 }
 
-@*@foreach (var movie in Model)
+<ejs-grid id="Grid" dataSource="Model" allowGrouping="true" allowPaging="true" allowSorting="true">
+    <e-grid-pagesettings pageCount="50"></e-grid-pagesettings>
+    <e-grid-columns>
+        <e-grid-column field="ID" headerText="ID" textAlign="Right" width="50" allowGrouping="false"></e-grid-column>
+        <e-grid-column field="Title" headerText="Title" width="200" allowGrouping="false"></e-grid-column>
+        <e-grid-column field="Genre" headerText=" Genre" width="100"></e-grid-column>
+        <e-grid-column field="ReleaseDate" headerText="Release Date" format="yMd" width="150" allowGrouping="false"></e-grid-column>
+
+    </e-grid-columns>
+</ejs-grid>
+
+@*@if (Model.Count() > 0)
     {
-        <div class="e-card-stacked">
-            <div class="e-card-image">
-                <img src="@movie.Poster" height="185">
-            </div>
-            <div class="e-card-header">
-                <div class="e-card-header-caption">
-                    <div class="e-card-header-title">@movie.Title</div>
-                </div>
-            </div>
-        </div>
-    }*@
+        int skip = 0;
+        int take = 7;
+        var items = Model.Skip(skip).Take(take);
 
-
-@if (Model.Count() > 0)
-{
-    int skip = 0;
-    int take = 7;
-    var items = Model.Skip(skip).Take(take);
-
-    @do
-    {
-        <div class="e-card e-card-horizontal">
-            @foreach (var item in items)
-            {
-                <div class="e-card-image">
-                    <img src="@item.Poster" height="185">
-                </div>
-            }
-
-            @if (items.Count() < take)
-            {
-                @for (int i = 0; i < take - items.Count(); i++)
+        @do
+        {
+            <div class="e-card e-card-horizontal">
+                @foreach (var item in items)
                 {
                     <div class="e-card-image">
-                        <img src="" height="185">
+                        <img src="@item.Poster" height="185">
                     </div>
                 }
-            }
-        </div>
 
-        skip += take;
-        items = Model.Skip(skip).Take(take);
-    } while (items.Count() > 0);
-}
+                @if (items.Count() < take)
+                {
+                    @for (int i = 0; i < take - items.Count(); i++)
+                    {
+                        <div class="e-card-image">
+                            <img src="" height="185">
+                        </div>
+                    }
+                }
+            </div>
+
+            skip += take;
+            items = Model.Skip(skip).Take(take);
+        } while (items.Count() > 0);
+    }*@

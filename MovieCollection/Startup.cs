@@ -41,6 +41,9 @@ namespace MovieCollection
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //Register Syncfusion license
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Configuration.GetSection("SyncfusionLicense").Value);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

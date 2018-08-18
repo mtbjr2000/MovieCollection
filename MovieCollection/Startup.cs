@@ -16,12 +16,14 @@ namespace MovieCollection
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
+        private IHostingEnvironment _env;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -33,7 +35,7 @@ namespace MovieCollection
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<MovieDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("MovieDatabase")));
+            services.AddDbContext<MovieDbContext>(options => options.UseSqlite($@"Data Source={_env.ContentRootPath}\Databases\MovieDatabase.db"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

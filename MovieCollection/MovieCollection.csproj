@@ -12,11 +12,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Databases\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MovieCollection.Data\MovieCollection.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Databases\MovieDatabase.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

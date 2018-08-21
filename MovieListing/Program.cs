@@ -24,8 +24,8 @@ namespace MovieListing
             StreamWriter writer = new StreamWriter(@"C:\Users\mtbjr\Desktop\Titles.txt");
 
             GetMovieListPipeDelimited(new DirectoryInfo(@"G:\"), writer);
-            GetMovieListPipeDelimited(new DirectoryInfo(@"H:\"), writer);
-            GetMovieListPipeDelimited(new DirectoryInfo(@"I:\"), writer);
+            //GetMovieListPipeDelimited(new DirectoryInfo(@"I:\"), writer);
+            //GetMovieListPipeDelimited(new DirectoryInfo(@"J:\"), writer);
 
             writer.Flush();
             writer.Close();
@@ -35,11 +35,8 @@ namespace MovieListing
         {
             try
             {
-                string[] extensionExceptions = { ".jpg", ".jpeg", ".JPG", ".db" };
-                string[] directoryExceptions = { "$RECYCLE.BIN", "Pictures", "Music", "BD MOVIES", "TV Series" };
-
                 var files = (from i in rootDir.GetFiles()
-                             where extensionExceptions.Contains(i.Extension) == false
+                             where i.Extension == ".mkv"
                              orderby i.Name
                              select i).ToArray();
 
@@ -70,7 +67,7 @@ namespace MovieListing
                     }
                 }
 
-                foreach (DirectoryInfo item in rootDir.GetDirectories().Where(i => directoryExceptions.Contains(i.Name) == false))
+                foreach (DirectoryInfo item in rootDir.GetDirectories())
                     GetMovieListPipeDelimited(item, writer);
             }
             catch(Exception ex)

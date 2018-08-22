@@ -20,10 +20,4 @@
     <ProjectReference Include="..\MovieCollection.Data\MovieCollection.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Databases\MovieDatabase.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

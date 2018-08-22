@@ -24,7 +24,7 @@ namespace MovieListing
             StreamWriter writer = new StreamWriter(@"C:\Users\mtbjr\Desktop\Titles.txt");
 
             GetMovieListPipeDelimited(new DirectoryInfo(@"G:\"), writer);
-            //GetMovieListPipeDelimited(new DirectoryInfo(@"I:\"), writer);
+            GetMovieListPipeDelimited(new DirectoryInfo(@"I:\"), writer);
             //GetMovieListPipeDelimited(new DirectoryInfo(@"J:\"), writer);
 
             writer.Flush();
@@ -48,16 +48,21 @@ namespace MovieListing
                     {
                         Console.WriteLine(item.Name);
                         
-                        string query = item.Name.Substring(0, item.Name.LastIndexOf(".")).Replace("REMUX", "").Replace("4K", "").Trim();
-                        var match = client.SearchMovieAsync(query).Result;
+                        string title = item.Name.Substring(0, item.Name.LastIndexOf(".")).Replace("REMUX", "").Replace("4K", "").Trim();
+                        var match = client.SearchMovieAsync(title).Result;
 
                         int movieId = 0;
                         string movieTitle = "%";
 
-                        if (match.Results.Count == 1 && match.Results[0].MediaType == MediaType.Movie)
+                        if (match.Results.Count > 0 && match.Results[0].MediaType == MediaType.Movie)
                         {
-                            movieId = match.Results[0].Id;
-                            movieTitle = match.Results[0].Title;
+                            var exact = match.Results.FirstOrDefault(i => i.Title == title);
+
+                            if (exact != null)
+                            {
+                                movieId = match.Results[0].Id;
+                                movieTitle = match.Results[0].Title;
+                            }                            
                         }
 
                         double size = item.Length / 1024.00 / 1024.00 / 1024.00;
